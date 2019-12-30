@@ -16,11 +16,11 @@ public class DollarText {
 		while(dollarString.length()> 0){
 			System.out.println("bfore;" + dollarString);
 			getDollarText(dollarString, sb);
-			if(isSkipToNext){
+			if(isSkipToNext){//Don't need check value in next digit, e.g. nineteen(19)
 				dollarString = dollarString.substring(2);
 				isSkipToNext = false;
 			}else{
-				dollarString = dollarString.substring(1);
+				dollarString = dollarString.substring(1);//Move to next digit
 			}
 			System.out.println("after:" + dollarString);
 		}

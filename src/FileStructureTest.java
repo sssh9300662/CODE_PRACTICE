@@ -22,7 +22,7 @@ public class FileStructureTest {
 	}
 	
 	public static void main(String args[]){
-		String filePath = "F:\\SOMETHING SPRECIAL\\";
+		String filePath = "D:\\ems_configs";
 		FileManager fileManager = new FileManager();
 		fileManager.print(new File(filePath), "");
 	}
