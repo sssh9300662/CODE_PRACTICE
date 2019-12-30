@@ -32,7 +32,7 @@ public class LongestCommonPrefix {
     }
 
     public static void main(String[] args) {
-        String[] values = {"dog","racecar","car"};
+        String[] values = {"abcd","abccc","abdec"};
         LongestCommonPrefix obj = new LongestCommonPrefix();
         System.out.println(obj.longestCommonPrefix(values));
 
