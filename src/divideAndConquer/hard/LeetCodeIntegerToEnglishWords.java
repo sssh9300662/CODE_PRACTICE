@@ -1,4 +1,4 @@
-package divideAndConquer;
+package divideAndConquer.hard;
 
 /**
  * https://leetcode.com/problems/integer-to-english-words/solution/
