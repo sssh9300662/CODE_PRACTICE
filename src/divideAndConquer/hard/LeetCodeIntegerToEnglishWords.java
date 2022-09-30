@@ -21,26 +21,32 @@ class Solution {
 		int rest = num - billion * 1000000000 - million * 1000000 - thousand * 1000;
 
 		String result = "";
+		// Divide by three digit
 		if (billion != 0)
-			result = getThreeDigitText(billion) + " Billion";
+			result = getThreeDigitText(billion) + " Billion"; // Combine
 		if (million != 0) {
 			if (! result.isEmpty())
 				result += " ";
-			result += getThreeDigitText(million) + " Million";
+			result += getThreeDigitText(million) + " Million"; // Combine
 		}
 		if (thousand != 0) {
 			if (! result.isEmpty())
 				result += " ";
-			result += getThreeDigitText(thousand) + " Thousand";
+			result += getThreeDigitText(thousand) + " Thousand"; // Combine
 		}
 		if (rest != 0) {
 			if (! result.isEmpty())
 				result += " ";
-			result += getThreeDigitText(rest);
+			result += getThreeDigitText(rest); // Combine
 		}
 		return result;
 	}
 
+	/**
+	 * Conquer, 用相同邏輯處理子問題
+	 * @param num
+	 * @return
+	 */
 	public String getThreeDigitText(int num) {
 		int hundred = num / 100;
 		int rest = num - hundred * 100;
