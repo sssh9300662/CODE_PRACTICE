@@ -16,7 +16,7 @@ public class Combinations {
 
     /**
      *
-     * @param n 可以做的選擇
+     * @param n 可以做的選擇(選擇清單)
      * @param k 終止條件
      * @return
      */
