@@ -42,7 +42,7 @@ import java.util.Set;
 //Java：Longest Nice Substring
 public class P1763LongestNiceSubstring{
     public static void main(String[] args) {
-        Solution solution = new P1763LongestNiceSubstring().new Solution();
+        Solution2 solution = new P1763LongestNiceSubstring().new Solution2();
         System.out.println(solution.longestNiceSubstring("YazaAay"));
         System.out.println(solution.longestNiceSubstring("Bb"));
         System.out.println(solution.longestNiceSubstring("c"));
@@ -53,44 +53,101 @@ public class P1763LongestNiceSubstring{
         System.out.println(solution.longestNiceSubstring("YyKyIoyEeUhJnvevOyvBkNjmmyhoBBByUhhumVBnbckyjBBnnBBEHBeBBhbmhvhmyHRUnHmnheBobUnMBYvBtyCnyenmU"));
     }
     //leetcode submit region begin(Prohibit modification and deletion)
-class Solution {
-    public String longestNiceSubstring(String s) {
-        int end = s.length();
-        int start = 0;
-        String result = "";
-        while(end -start > 1){
-            for(int i = start; i < end-1; end--){
-                String subStr = s.substring(start, end);
-                if(isNice(subStr) && subStr.length() > result.length()){
-                    result = subStr;
-                }
-                if (end == start+2) {// next round
-                    end = s.length();
-                    start = start +1;
-                    break;
+
+    /**
+     * Brute force
+     */
+    class Solution {
+        public String longestNiceSubstring(String s) {
+            int end = s.length();
+            int start = 0;
+            String result = "";
+            while(end -start > 1){
+                for(int i = start; i < end-1; end--){
+                    String subStr = s.substring(start, end);
+                    if(isNice(subStr) && subStr.length() > result.length()){
+                        result = subStr;
+                    }
+                    if (end == start+2) {// next round
+                        end = s.length();
+                        start = start +1;
+                        break;
+                    }
                 }
             }
+            return result;
         }
-        return result;
+
+        private boolean isNice(String s){
+            Set<Character> chs = new HashSet<>();
+            for(int i =0; i < s.length(); i++){
+                chs.add(s.charAt(i));
+            }
+            for(Character ch: chs){
+                if(Character.isUpperCase(ch) && chs.contains(Character.toLowerCase(ch))){
+                    continue;
+                }
+                if(Character.isLowerCase(ch) && chs.contains(Character.toUpperCase(ch))){
+                    continue;
+                }
+                return false;
+            }
+            return true;
+        }
     }
 
-    private boolean isNice(String s){
-        Set<Character> chs = new HashSet<>();
-        for(int i =0; i < s.length(); i++){
-            chs.add(s.charAt(i));
-        }
-        for(Character ch: chs){
-            if(Character.isUpperCase(ch) && chs.contains(Character.toLowerCase(ch))){
-                continue;
+    /**
+     * Divide & Conquer
+     */
+    class Solution2 {
+        public String longestNiceSubstring(String s) {
+            if(s.length() <=1){// at least need two characters
+                return "";
             }
-            if(Character.isLowerCase(ch) && chs.contains(Character.toUpperCase(ch))){
-                continue;
+            int end = s.length()-1;
+            int start = 0;
+            // position that the character make a string is not nice
+            int invalidChIndex = isNice(s, start, end);
+            if(invalidChIndex == -1){// not invalid character means it's nice
+                return s;
             }
-            return false;
+            // Based on invalid character, divide a string
+            String leftStr = longestNiceSubstring(s.substring(start, invalidChIndex));
+            String rightStr = longestNiceSubstring(s.substring(invalidChIndex+1, end+1));
+            // Conquer (find valid one form sub result)
+            return (leftStr.length() > rightStr.length())? leftStr: rightStr;
         }
-        return true;
+
+        /**
+         * For checking whether the string is nice or not, we can use a set,
+         * if no uppercase or lowercase characters of any alphabets are present in the set,
+         * it means string s is not a nice string.
+         * @param s
+         * @return
+         */
+        private int isNice(String s, int start, int end){
+            Set<Character> chs = getCharacterSet(s, start, end);
+            for(int i =start; i <= end; i++){
+                Character ch = s.charAt(i);
+                if(Character.isUpperCase(ch) && chs.contains(Character.toLowerCase(ch))){
+                    continue;
+                }
+                if(Character.isLowerCase(ch) && chs.contains(Character.toUpperCase(ch))){
+                    continue;
+                }
+                return i;
+            }
+            return -1;
+        }
+
+        private Set<Character> getCharacterSet(String s, int start, int end){
+            Set<Character> chs = new HashSet<>();
+            for(int i =start; i <= end; i++){
+                chs.add(s.charAt(i));
+            }
+            return chs;
+        }
     }
-}
 //leetcode submit region end(Prohibit modification and deletion)
 
 }
