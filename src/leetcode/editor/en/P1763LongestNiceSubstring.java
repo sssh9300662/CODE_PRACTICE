@@ -53,7 +53,6 @@ public class P1763LongestNiceSubstring{
         System.out.println(solution.longestNiceSubstring("YyKyIoyEeUhJnvevOyvBkNjmmyhoBBByUhhumVBnbckyjBBnnBBEHBeBBhbmhvhmyHRUnHmnheBobUnMBYvBtyCnyenmU"));
     }
     //leetcode submit region begin(Prohibit modification and deletion)
-
     /**
      * Brute force
      */
@@ -95,7 +94,6 @@ public class P1763LongestNiceSubstring{
             return true;
         }
     }
-
     /**
      * Divide & Conquer
      */
@@ -107,14 +105,16 @@ public class P1763LongestNiceSubstring{
             int end = s.length()-1;
             int start = 0;
             // position that the character make a string is not nice
+            // 將一個問題分解為一系列子問題 (sub problem)
             int invalidChIndex = isNice(s, start, end);
             if(invalidChIndex == -1){// not invalid character means it's nice
                 return s;
             }
             // Based on invalid character, divide a string
+            // 使用相同邏輯解決各子問題，如果問題夠小，可以直接求解。
             String leftStr = longestNiceSubstring(s.substring(start, invalidChIndex));
             String rightStr = longestNiceSubstring(s.substring(invalidChIndex+1, end+1));
-            // Conquer (find valid one form sub result)
+            // Conquer (find valid one form sub result) 將子問題的結果合併
             return (leftStr.length() > rightStr.length())? leftStr: rightStr;
         }
 
@@ -149,5 +149,4 @@ public class P1763LongestNiceSubstring{
         }
     }
 //leetcode submit region end(Prohibit modification and deletion)
-
 }
