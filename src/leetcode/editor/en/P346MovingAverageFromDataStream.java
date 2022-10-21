@@ -20,11 +20,7 @@
 //movingAverage.next(3); // return 4.66667 = (1 + 10 + 3) / 3
 //movingAverage.next(5); // return 6.0 = (10 + 3 + 5) / 3
 // 
-//
-// 
-// Constraints: 
-//
-// 
+// Constraints:
 // 1 <= size <= 1000 
 // -105 <= val <= 105 
 // At most 104 calls will be made to next. 
@@ -35,6 +31,8 @@
 package leetcode.editor.en;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
 
 //Java：Moving Average from Data Stream
 public class P346MovingAverageFromDataStream{
@@ -49,39 +47,84 @@ public class P346MovingAverageFromDataStream{
     //leetcode submit region begin(Prohibit modification and deletion)
     class MovingAverage {
 
-        private ArrayList<Integer> queue = new ArrayList<>();
+        private ArrayList<Integer> list = new ArrayList<>();
+
+        private Queue<Integer> queue = new LinkedList<>();
+
+        private int[] circularQueue;
 
         private int size;
 
         public MovingAverage(int size) {
             this.size = size;
+            this.circularQueue = new int[size];
         }
     
         public double next(int val) {
-            queue.add(val);
-            int queueSize = queue.size();
-            int skip = (queueSize - size) > 0 ?(queueSize - size):0;
-            Double sum = 0.0;
-            int window = 0;
+            return circularQueueWithArray(val);
+        }
 
-            for(int i = skip; i < queue.size(); i++){
+        private Double curSum = 0.0;
+
+        private int window = 0;
+
+        private int index = 0;
+
+        private double circularQueueWithArray(int val){
+            index = (index + 1)%size; // find current val's index (head)
+            /**
+             * accumulate, but have to remove value not in window (oldest one). since we use fix
+             * size array, it means only condition we can retrieve oldest value is array is full
+             * and target value is at array[0]
+             */
+            curSum =  curSum  + val - circularQueue[index];
+            circularQueue[index] = val;
+            if(window < size){// increase window size
+                window = window + 1;
+            }
+            return curSum/window;
+        }
+
+        /**
+         * Double-ended Queue
+         * @param val
+         * @return
+         */
+        private double dequeue(int val) {
+            queue.offer(val); // add value to queue
+            curSum =  curSum  + val; // accumulate
+            if(window < size){// increase window size
+                window = window + 1;
+            }else{// if reach window size, it means we don't need extra item since number of
+                // items is limited by window szie
+                curSum = curSum - queue.poll();
+            }
+            return curSum/window;
+        }
+
+        private double arrayListSolution(int val) {
+            list.add(val);
+            int window = 0;
+            int queueSize = list.size();
+            int skip = (queueSize - size) > 0 ?(queueSize - size):0; // number of item we should
+            // calculate is based on window size, since we only need previous data based on
+            // current value index, so we should know how many previous items we should skip
+            Double sum = 0.0;
+            for(int i = skip; i < list.size(); i++){
                 if(window == size){
                     break;
                 }
-                int cur = queue.get(i);
+                int cur = list.get(i);
                 sum = sum + cur;
                 window = window +1;
             }
-
             return sum/window;
         }
     }
-
 /**
  * Your MovingAverage object will be instantiated and called as such:
  * MovingAverage obj = new MovingAverage(size);
  * double param_1 = obj.next(val);
  */
 //leetcode submit region end(Prohibit modification and deletion)
-
 }
