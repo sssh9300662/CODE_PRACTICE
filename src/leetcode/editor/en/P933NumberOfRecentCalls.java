@@ -64,28 +64,42 @@ public class P933NumberOfRecentCalls{
     }
 
     //leetcode submit region begin(Prohibit modification and deletion)
+
+    /**
+     * Since the elements in our sliding window are strictly ordered, due to the condition of the problem,
+     * one might argue that it might be more efficient to use binary search to locate the most recent outdated calls
+     * and then starting from that point truncate all the previous calls.
+     *
+     * In terms of search, binary search is seemingly more efficient than our linear search.
+     * When the elements are held in the array data structure, it is true that binary search is more efficient.
+     *
+     * However, it is not the case for the linked list, since there is no way to locate an element
+     * in the middle of a linked list instantly, which is a critical condition for binary search algorithm.
+     *
+     * As a result, in order to apply binary search, we might have to opt for the Array data structure.
+     * On the other hand, once we use the array as the container, we might have to keep all the historical elements,
+     * which in the long run is not space-efficient neither time-efficient later.
+     * Or we have to find a way to efficiently remove the elements from array without frequently reallocating memory.
+     *
+     * To conclude, it is doable to have a binary search solution.
+     * Yet, it would complicate the design, and at the end the final solution is not necessarily
+     * more efficient than the above simple LinkedList-based sliding window.
+     */
     class RecentCounter {
 
         public RecentCounter() {}
 
-        private int head = -1;
-
-        private int pings = 0;
-
         private Queue<Integer> queue = new LinkedList<>();
     
         public int ping(int t) {
-            if(head == -1){
-                head = t;
-            }
-            queue.offer(t);
-            pings = pings +1;
-            while(t - head > 3000){
+            queue.offer(t); // Appending: we will append each incoming call to the tail of the sliding window.
+            while(t - queue.peek() > 3000){ // Popping: we need to pop out all the outdated calls from
+                // the head of the sliding window.
+                //  once the ping calls become outdated, i.e. out of the scope of [t-3000, t],
+                //  we do not need to keep them any longer in the container, since they will not contribute to the solution later.
                 queue.poll();
-                head = queue.peek();
-                pings = pings -1;
             }
-            return pings;
+            return queue.size();
         }
     }
 
