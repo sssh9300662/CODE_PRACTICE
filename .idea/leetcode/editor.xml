@@ -43,6 +43,22 @@
             </LeetcodeEditor>
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/leetcode/editor/en/P359LoggerRateLimiter.java">
+          <value>
+            <LeetcodeEditor>
+              <option name="path" value="$PROJECT_DIR$/src/leetcode/editor/en/P359LoggerRateLimiter.java" />
+              <option name="questionId" value="359" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/leetcode/editor/en/P371SumOfTwoIntegers.java">
+          <value>
+            <LeetcodeEditor>
+              <option name="path" value="$PROJECT_DIR$/src/leetcode/editor/en/P371SumOfTwoIntegers.java" />
+              <option name="questionId" value="371" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/leetcode/editor/en/P933NumberOfRecentCalls.java">
           <value>
             <LeetcodeEditor>
