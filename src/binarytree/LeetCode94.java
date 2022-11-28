@@ -39,7 +39,6 @@ public class LeetCode94 {
             if(stack.isEmpty()){
                 break;
             }
-            System.out.println(stack);
             cur = stack.pop();//finish left
             cur.left = null;
         }
