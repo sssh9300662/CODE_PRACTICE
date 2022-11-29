@@ -34,7 +34,7 @@
 //Window 
 // 👍 816 👎 592
 
-package leetcode.editor.en;
+package slidingwindow;
 
 import java.util.HashSet;
 import java.util.Set;
