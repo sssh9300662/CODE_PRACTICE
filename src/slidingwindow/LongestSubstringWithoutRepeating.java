@@ -19,9 +19,7 @@ package slidingwindow;
 // Notice that the answer must be a substring, "pwke" is a subsequence and not a substring.
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 public class LongestSubstringWithoutRepeating {
 
