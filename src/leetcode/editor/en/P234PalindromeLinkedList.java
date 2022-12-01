@@ -23,28 +23,28 @@ package leetcode.editor.en;
 
 import java.util.Stack;
 
-class ListNode {
+class ListNode2 {
     int val;
-    ListNode next;
-    ListNode() {}
-    ListNode(int val) { this.val = val; }
-    ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+    ListNode2 next;
+    ListNode2() {}
+    ListNode2(int val) { this.val = val; }
+    ListNode2(int val, ListNode2 next) { this.val = val; this.next = next; }
 }
 //Java：Palindrome Linked List
 public class P234PalindromeLinkedList{
     public static void main(String[] args) {
         Solution solution = new P234PalindromeLinkedList().new Solution();
-        ListNode node4 = new ListNode(2);
-        ListNode node3 = new ListNode(2,node4);
-        ListNode node2 = new ListNode(2,node3);
-        ListNode node1 = new ListNode(1,node2);
+        ListNode2 node4 = new ListNode2(2);
+        ListNode2 node3 = new ListNode2(2,node4);
+        ListNode2 node2 = new ListNode2(2,node3);
+        ListNode2 node1 = new ListNode2(1,node2);
         System.out.println(solution.isPalindrome(node1));
     }
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
-        public boolean isPalindrome(ListNode head) {
-            Stack<ListNode> stack = new Stack<>();
-            ListNode cur = head;
+        public boolean isPalindrome(ListNode2 head) {
+            Stack<ListNode2> stack = new Stack<>();
+            ListNode2 cur = head;
             while(cur != null) {
                 stack.push(cur); //先把元素都倒入另一個桶子
                 cur = cur.next;
@@ -54,7 +54,7 @@ public class P234PalindromeLinkedList{
              * 兩個集合一起比對
              */
             while(!stack.empty()){
-                ListNode node = stack.pop();
+                ListNode2 node = stack.pop();
                 if(node.val != cur.val){//有不符㪋惡
                     return false;
                 }
@@ -69,9 +69,9 @@ public class P234PalindromeLinkedList{
      */
     class SolutionRecursivelyCheck {
 
-        private ListNode frontPointer;
+        private ListNode2 frontPointer;
 
-        private boolean recursivelyCheck(ListNode currentNode) {
+        private boolean recursivelyCheck(ListNode2 currentNode) {
             if (currentNode != null) {//尚未走完list
                 if (!recursivelyCheck(currentNode.next)) return false; //是否前一處理有找到對應
                 // 找到後進行比對
@@ -82,7 +82,7 @@ public class P234PalindromeLinkedList{
             return true; // 找到對應或到底部
         }
 
-        public boolean isPalindrome(ListNode head) {
+        public boolean isPalindrome(ListNode2 head) {
             frontPointer = head; //前面節點找對應的後面節點
             return recursivelyCheck(head);
         }
