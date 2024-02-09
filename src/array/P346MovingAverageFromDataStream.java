@@ -28,7 +28,7 @@
 // Related Topics Array Design Queue Data Stream 
 // 👍 1416 👎 139
 
-package leetcode.editor.en;
+package array;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -44,18 +44,42 @@ public class P346MovingAverageFromDataStream{
         System.out.println(solution.next(3));
         System.out.println(solution.next(5));
     }
+
+    class MovingAverage{
+
+        private int size;
+
+        private double currSum = 0.0;
+
+        private int index = 0;
+
+        private int window = 0;
+
+        private int[] queue;
+        public MovingAverage(int size){
+            this.size = size;
+            this.queue = new int[size];
+        }
+
+        public double next(int val) {
+            index = (index + 1)%size; // find current val's index (head)
+            currSum = currSum + val - queue[index];
+            queue[index] = val;
+            if(window < size){
+                window++;
+            }
+            return currSum/window;
+        }
+
+        }
     //leetcode submit region begin(Prohibit modification and deletion)
-    class MovingAverage {
-
-        private ArrayList<Integer> list = new ArrayList<>();
-
-        private Queue<Integer> queue = new LinkedList<>();
+    class MovingAverage2 {
 
         private int[] circularQueue;
 
         private int size;
 
-        public MovingAverage(int size) {
+        public MovingAverage2(int size) {
             this.size = size;
             this.circularQueue = new int[size];
         }
@@ -72,11 +96,6 @@ public class P346MovingAverageFromDataStream{
 
         private double circularQueueWithArray(int val){
             index = (index + 1)%size; // find current val's index (head)
-            /**
-             * accumulate, but have to remove value not in window (oldest one). since we use fix
-             * size array, it means only condition we can retrieve oldest value is array is full
-             * and target value is at array[0]
-             */
             curSum =  curSum  + val - circularQueue[index];
             circularQueue[index] = val;
             if(window < size){// increase window size
@@ -87,9 +106,13 @@ public class P346MovingAverageFromDataStream{
 
         /**
          * Double-ended Queue
+         * Time Complexity: O(1)\mathcal{O}(1)O(1), as we can see that there is no loop in the next(val) function.
+         * Space Complexity: O(N)\mathcal{O}(N)O(N), where NNN is the size of the circular queue.
          * @param val
          * @return
          */
+        private Queue<Integer> queue = new LinkedList<>();
+
         private double dequeue(int val) {
             queue.offer(val); // add value to queue
             curSum =  curSum  + val; // accumulate
@@ -101,6 +124,8 @@ public class P346MovingAverageFromDataStream{
             }
             return curSum/window;
         }
+
+        private ArrayList<Integer> list = new ArrayList<>();
 
         private double arrayListSolution(int val) {
             list.add(val);
