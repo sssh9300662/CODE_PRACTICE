@@ -80,14 +80,16 @@ Explanation:
 
 */
 
-package leetcode.editor.en;
+package array;
+
+import java.util.Arrays;
 
 public class P2090＿KRadiusSubarrayAverages{
     public static void main(String[] args) {
         Solution solution = new P2090＿KRadiusSubarrayAverages().new Solution();
         int[] nums = {7,4,3,9,1,8,5,2,6};
         int k = 3;
-        int[] result = solution.getAverages(nums, k);
+        int[] result = solution.getAverages2(nums, k);
         for(int i=0;i< result.length; i++){
             System.out.println(result[i]);
         }
@@ -95,24 +97,65 @@ public class P2090＿KRadiusSubarrayAverages{
     //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
     public int[] getAverages(int[] nums, int k) {
+        // 先處理邊技職
+        if (k == 0) {
+            return nums;
+        }
         int length = nums.length;
         int defaultValue = -1;
         int[] result = new int[length];
-        for(int i =0; i < length; i++){
-            if(i >=k && i+k < length){
+        for (int i = 0; i < length; i++) {
+            if (i >= k && i + k < length) {//we can check if it has k elements in its left and right
+                /** if it has then we need to sum all the elements from index i - k to index i + k and divide this sum by windowSize,
+                 calculated by 2 * k + 1
+                 **/
+                /**
+                 * an easy way will be to iterate over all elements from index i - k to i + k, sum all the elements, and divide this sum by windowSize. But repeating this step (i.e., iterating over the sub-array) for each index will result in Time Limit Exceeded.
+                 */
                 int lowerBound = i - k;
                 int upperBound = i + k;
                 long sum = 0;
-                for(int j=lowerBound; j <= upperBound; j++){
+                for (int j = lowerBound; j <= upperBound; j++) {
                     sum = sum + nums[j];
                 }
-                result[i] = (int)(sum/(2*k+1));
-            }else{
+                result[i] = (int) (sum / (2 * k + 1));
+            } else {//if it doesn't have then we know the average for the current element is -1
                 result[i] = defaultValue;
             }
         }
         return result;
     }
+
+    public int[] getAverages2(int[] nums, int k) {
+        // 先處理邊技職
+        if (k == 0) {
+            return nums;
+        }
+        int length = nums.length;
+        int defaultValue = -1;
+        int windowSize = 2 * k + 1;
+        int[] result = new int[length];
+        Arrays.fill(result, defaultValue);
+        // 先處理邊技職
+        if(length < windowSize){
+            return result;
+        }
+        // 需要計算
+        long[] prefix = new long[length + 1]; // 基本資料型態會自動產生和填滿default value, e.g. 0
+        for (int i = 0; i < length; ++i) {
+            prefix[i + 1] = prefix[i] + nums[i];
+        }
+        // We iterate only on those indices which have atleast 'k' elements in their left and right.
+        // i.e. indices from 'k' to 'n - k'
+        for (int i = k; i < (length-k); i++) {
+            int leftBound = i - k;
+            int rightBound = i + k;
+            long sum = prefix[rightBound+1] - prefix[leftBound];
+            result[i] = (int) (sum / windowSize);
+        }
+        return result;
+    }
+
 }
 //leetcode submit region end(Prohibit modification and deletion)
 
