@@ -24,7 +24,7 @@ public class LeetCode94 {
         TreeNode cur = root;
         Stack<TreeNode> stack = new Stack<>();
         while(cur != null){
-            if(cur.left != null){
+            if(cur.left != null){ // 左邊走到底
                 stack.push(cur);
                 cur = cur.left;
                 continue;
@@ -34,12 +34,12 @@ public class LeetCode94 {
                 cur = cur.right;
                 continue;
             }
-            // all null means is leaf node
+            // all null means is leaf node or parent node (左右都走完)
             result.add(cur.val);
-            if(stack.isEmpty()){
+            if(stack.isEmpty()){// 全部走完, 目前是根節點
                 break;
             }
-            cur = stack.pop();//finish left
+            cur = stack.pop();//走完階層, 回上一階層
             cur.left = null;
         }
         return result;
