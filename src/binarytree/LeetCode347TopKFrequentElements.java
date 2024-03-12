@@ -13,6 +13,7 @@ public class LeetCode347TopKFrequentElements {
         }
     }
 
+    // must be better than O(n log n)
     public int[] topKFrequent(int[] nums, int k) {
         // Record the frequency of each number
         Map<Integer, Integer> map = new java.util.HashMap<>();
@@ -20,9 +21,12 @@ public class LeetCode347TopKFrequentElements {
             map.put(num, map.getOrDefault(num, 0) + 1);
         }
         // Define sorting rule
-        PriorityQueue<Integer> pq = new PriorityQueue<>((a, b) -> map.get(b) - map.get(a)); // big to small
+        PriorityQueue<Integer> pq = new PriorityQueue<>((a, b) -> map.get(a) - map.get(b)); // small to big
         for(int num : map.keySet()){// value of key set is uniqueue, we should avoid count duplicate number
             pq.add(num);
+            if(pq.size() > k){// first value is the smallest and we require k largest
+                pq.poll();
+            }
         }
         int cur = 0;
         int[] result = new int[k];
