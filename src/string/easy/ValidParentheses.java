@@ -48,9 +48,30 @@ public class ValidParentheses {
         return stack.size() == 0;
     }
 
+    private Stack<Character> stack = new Stack<>();
+
+    public boolean isValid2(String s) {
+        for(int i=0; i < s.length(); i++){
+            Character curr = s.charAt(i);
+            if(stack.isEmpty()){
+                stack.push(curr);
+                continue;
+            }
+            Character prev = stack.peek();
+            if(curr.equals(')') && prev.equals('(')
+            || curr.equals('}') && prev.equals('{')
+            || curr.equals(']') && prev.equals('[')){ // perfectly match
+                stack.pop();
+            }else{
+                stack.push(curr);
+            }
+        }
+        return stack.isEmpty();
+    }
+
     public static void main(String[] args) {
         ValidParentheses obj = new ValidParentheses();
-        System.out.println(obj.isValid("{()}"));
+        System.out.println(obj.isValid2("{()}"));
     }
 
 }
