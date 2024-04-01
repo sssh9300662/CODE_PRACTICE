@@ -65,5 +65,45 @@ public class LeetCodeMaximumProductSubarray {
 
     public static void main(String[] args){
         System.out.println(new LeetCodeMaximumProductSubarray().maxProduct2(new int[]{2,-5,-2,-4,3}));
+        System.out.println(new LeetCodeMaximumProductSubarray().maxProduct3(new int[]{2,-5,-2,-4,3})); // 額外迴圈
+        System.out.println(new LeetCodeMaximumProductSubarray().maxProduct4(new int[]{2,-5,-2,-4,3}));
+    }
+
+    public int maxProduct4(int[] nums) {
+        if(nums.length == 0) return 0;
+        if(nums.length == 1) return nums[0];
+        int globalMax= nums[0];
+        int curMax = nums[0];
+        for(int i=1; i < nums.length; i++){
+            int cur = nums[i];
+            int tempMax = Math.max(cur, cur*curMax);
+            curMax = curMax * cur;
+            globalMax = Math.max(globalMax, tempMax);
+        }
+        return globalMax;
+    }
+
+    public int maxProduct3(int[] nums) {
+        if(nums.length == 0) return 0;
+        int max = Integer.MIN_VALUE;
+        for(int i=0; i < nums.length; i++){
+            int curMax = findMax(i, nums);
+            if(curMax > max){
+                max = curMax;
+            }
+        }
+        return max;
+    }
+
+    private int findMax(int position, int[] nums){
+        int cur = nums[position];
+        int max = cur;
+        for(int i=position+1; i < nums.length; i++){
+            cur = cur * nums[i];
+            if(cur > max){
+                max = cur;
+            }
+        }
+        return max > cur ? max : cur;
     }
 }
