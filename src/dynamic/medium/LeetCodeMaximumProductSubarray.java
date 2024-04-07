@@ -66,21 +66,37 @@ public class LeetCodeMaximumProductSubarray {
     public static void main(String[] args){
         System.out.println(new LeetCodeMaximumProductSubarray().maxProduct2(new int[]{2,-5,-2,-4,3}));
         System.out.println(new LeetCodeMaximumProductSubarray().maxProduct3(new int[]{2,-5,-2,-4,3})); // 額外迴圈
-        System.out.println(new LeetCodeMaximumProductSubarray().maxProduct4(new int[]{2,-5,-2,-4,3}));
+        System.out.println(new LeetCodeMaximumProductSubarray().maxProduct5(new int[]{2,-5,-2,-4,3}));
     }
 
-    public int maxProduct4(int[] nums) {
-        if(nums.length == 0) return 0;
-        if(nums.length == 1) return nums[0];
-        int globalMax= nums[0];
-        int curMax = nums[0];
-        for(int i=1; i < nums.length; i++){
-            int cur = nums[i];
-            int tempMax = Math.max(cur, cur*curMax);
-            curMax = curMax * cur;
-            globalMax = Math.max(globalMax, tempMax);
+    public int maxProduct5(int[] nums) {
+        int length = nums.length;
+        if(length == 0) return 0;
+        if(length == 1) return nums[0];
+        int result = nums[0]; // 紀錄最大,不參與計算
+        int curMax = nums[0]; // 累積
+        int curMin = nums[0]; // 累積
+        for(int i=1; i < length; i++){
+            int cur = nums[i]; // 當前數值可以reset max & min
+            /**
+             * cur 最大 -> reset 之前紀錄
+             * cur * curMax -> 正累積
+             * cur * curMin -> 之前負數, rest 之前最大
+             */
+            int tempMax = Math.max(cur, Math.max(cur * curMin, cur * curMax)); // 之前成績和當前比較
+            System.out.println("tempMax=" + tempMax);
+            /**
+             * cur 最小 -> 更新最小
+             * cur * curMax -> rest
+             * cur * curMin -> 正累積
+             */
+            curMin = Math.min(cur, Math.min(cur * curMin, cur * curMax));
+            curMax = tempMax;
+            System.out.println("curMin=" + curMin);
+            System.out.println("curMax=" + curMax);
+            result = Math.max(result, curMax);
         }
-        return globalMax;
+        return result;
     }
 
     public int maxProduct3(int[] nums) {
