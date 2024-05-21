@@ -52,24 +52,26 @@ public class P1328＿BreakAPalindrome{
         Solution solution = new P1328＿BreakAPalindrome().new Solution();
         System.out.println(solution.breakPalindrome("a"));
         System.out.println(solution.breakPalindrome("abccba"));
-        System.out.println(solution.breakPalindrome("aaaaaa"));
         System.out.println(solution.breakPalindrome("aba"));
     }
     //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
     public String breakPalindrome(String palindrome) {
+        // If the length of the string is 111, return an empty string since we cannot create a non-palindromic string in this case.
         int length = palindrome.length();
         if(length <= 1){
             return "";
         }
-        StringBuilder sb = new StringBuilder();
-        boolean isNonePalindrome = false;
-        for(int i=0; i < length; i++){
-            if(palindrome.charAt(i) != 'a'){
-                return palindrome.substring(0, i) + "a" + palindrome.substring(i+1, length);
+        // Strings are immutable in Java, convert it into a char array
+        char[] palindromeArray = palindrome.toCharArray();
+        for(int i = 0;i < length/2; i++){
+            if(palindromeArray[i] != 'a'){
+                palindromeArray[i] = 'a';
+                return String.valueOf(palindromeArray);
             }
         }
-        return sb.toString();
+        palindromeArray[length-1] = 'b';
+        return String.valueOf(palindromeArray);
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
