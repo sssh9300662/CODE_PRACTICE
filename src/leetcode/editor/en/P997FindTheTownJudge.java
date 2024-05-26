@@ -35,27 +35,28 @@
 
 package leetcode.editor.en;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 //Java：Find the Town Judge
 public class P997FindTheTownJudge{
     public static void main(String[] args) {
         Solution solution = new P997FindTheTownJudge().new Solution();
-        System.out.println(solution.findJudge(2, new int[][]{
+        System.out.println(solution.findJudge2(2, new int[][]{
                 {1,2}
         }));
-        System.out.println(solution.findJudge(3, new int[][]{
+        System.out.println(solution.findJudge2(3, new int[][]{
                 {1,3},{2,3}
         }));
-        System.out.println(solution.findJudge(3, new int[][]{
+        System.out.println(solution.findJudge2(3, new int[][]{
                 {1,3},{2,3},{3,1}
         }));
-        System.out.println(solution.findJudge(1, new int[][]{}));
+        System.out.println(solution.findJudge2(1, new int[][]{}));
+        System.out.println(solution.findJudge2(4, new int[][]{
+                {1,3},{1,4}, {2,3},{2,4},{4,3}
+        }));
     }
     //leetcode submit region begin(Prohibit modification and deletion)
+
 class Solution {
     public int findJudge(int n, int[][] trust) {
         if(n==1){
@@ -92,7 +93,7 @@ class Solution {
         if(trust.length < n-1){ // valid trust degree is N-1
             return -1;
         }
-        int[] in = new int[n+1];
+        int[] in = new int[n+1];// default array element = 0
         int[] out = new int[n+1];
         for(int[] edge : trust){
             out[edge[0]]++;
