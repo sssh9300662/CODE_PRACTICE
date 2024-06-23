@@ -25,11 +25,12 @@
 
 package leetcode.editor.en;
 import java.util.*;
+import java.util.stream.Collectors;
 
 //Java：Index Pairs of a String
 public class P1065IndexPairsOfAString{
     public static void main(String[] args) {
-        Solution solution = new P1065IndexPairsOfAString().new Solution();
+        Solution2 solution = new P1065IndexPairsOfAString().new Solution2();
         int[][]result = solution.indexPairs("ababa", new String[]{"aba","ab"});
         for(int[] value : result){
             System.out.println(value[0] + "," + value[1]);
@@ -41,6 +42,34 @@ public class P1065IndexPairsOfAString{
             System.out.println(value[0] + "," + value[1]);
 
         }
+    }
+
+    class Solution2 {
+        public int[][] indexPairs(String text, String[] words) {
+            Set<String> wordSet = new HashSet<>();
+            for(String word: words){
+                wordSet.add(word);
+            }
+            ArrayList<int[]> result = new ArrayList<>();
+            int start = 0;
+            findPair(start, text, wordSet, result);
+            return result.toArray(new int[][]{});
+        }
+
+        private void findPair(int start, String text, Set<String> wordSet, ArrayList<int[]> result) {
+            StringBuilder sb = new StringBuilder();
+            for(int i =start; i < text.length(); i++){
+                sb.append(text.charAt(i));
+                if(wordSet.contains(sb.toString())){
+                    int[] pair= new int[]{start, i};
+                    result.add(pair);
+                }
+                if(i == text.length()-1){
+                    findPair(start+1, text, wordSet, result);
+                }
+            }
+        }
+
     }
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
