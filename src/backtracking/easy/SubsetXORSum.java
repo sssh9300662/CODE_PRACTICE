@@ -14,11 +14,12 @@ public class SubsetXORSum {
             return xor;
         }
         System.out.println("start=" + nums[start] + ", xor=" + xor);
-        int sum = getXORSum(start+1, nums[start]^xor, nums);// 5,1 - 5, 1, 6 (跑到尾部)
-        System.out.println("sum1=" + sum);
-        sum = sum + getXORSum(start+1, xor, nums);//start = 下一個 6 , xor保留當前5
-        System.out.println("sum2=" + sum);
-        return sum;
+        int sum1 = getXORSum(start+1, nums[start]^xor, nums);// 5,1 - 5, 1, 6 (跑到尾部), nums[start]^xor 會回歸num[start]
+        System.out.println("sum1=" + sum1);
+        int sum2 = getXORSum(start+1, xor, nums);//start = 下一個 6 , xor保留當前5
+        System.out.println("sum2=" + sum2);
+        System.out.println("sum1=" + sum1 + "+sum2=" + sum2);
+        return sum1 + sum2;
     }
 
     public int subsetXORSum(int[] nums) {
