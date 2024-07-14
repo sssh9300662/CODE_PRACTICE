@@ -6,28 +6,18 @@ public class SubsetXORSum {
     public int ans = 0; //已經做出的選擇
 
     public int subsetXORSum2(int[] nums) {
-        if(nums == null || nums.length == 0){
-            return 0;
-        }
-        int sum = 0;
-        for(int i =0; i < nums.length; i++){
-            sum += getXORSum(i, nums);
-        }
-        return sum;
+        return getXORSum(0, 0, nums);
     }
 
-    private int getXORSum(int start, int[] nums) {
-        int sum = 0;
-        int xor = 0;
-        for(int i = start; i < nums.length; i++){
-            xor = nums[i]^xor;
-            sum += xor;
-            if(i == nums.length-1){//終止條件(邊界條件)
-                xor = 0;
-                start++;
-            }
+    private int getXORSum(int start, int xor, int[] nums) {
+        if(start == nums.length){
+            return xor;
         }
-        System.out.println("sum=" + sum);
+        System.out.println("start=" + nums[start] + ", xor=" + xor);
+        int sum = getXORSum(start+1, nums[start]^xor, nums);// 5,1 - 5, 1, 6 (跑到尾部)
+        System.out.println("sum1=" + sum);
+        sum = sum + getXORSum(start+1, xor, nums);//start = 下一個 6 , xor保留當前5
+        System.out.println("sum2=" + sum);
         return sum;
     }
 
@@ -48,7 +38,7 @@ public class SubsetXORSum {
     }
 
     public static void main(String args[]){
-        int[] num = {5, 1,6};
+        int[] num = {5,1,6};
         SubsetXORSum s = new SubsetXORSum();
         System.out.println(s.subsetXORSum(num));
         System.out.println(s.subsetXORSum2(num));
