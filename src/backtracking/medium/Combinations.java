@@ -25,9 +25,14 @@ public class Combinations {
             result.add(new LinkedList<>(path));
             return;
         }
-        for(int i=start; i <= n; i++){
+        int need = k - path.size();
+        System.out.println("start=" + start);
+        System.out.println("need=" + need);
+        for(int i=start; i <= n-need+1; i++){// 目前位置 ＋ need
             path.add(i);//選擇
+            System.out.println(path);
             backtrack2(path, i+1, n, k, result);
+            System.out.println("sya=" + start);
             path.pop();//清空,從選擇清單做下一個選擇
         }
     }
