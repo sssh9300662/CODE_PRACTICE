@@ -36,27 +36,73 @@
 
 package slidingwindow;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 //Java：Longest Nice Substring
 public class P1763LongestNiceSubstring{
     public static void main(String[] args) {
-        Solution2 solution = new P1763LongestNiceSubstring().new Solution2();
-        System.out.println(solution.longestNiceSubstring("YazaAay"));
-        System.out.println(solution.longestNiceSubstring("Bb"));
-        System.out.println(solution.longestNiceSubstring("c"));
-        System.out.println(solution.longestNiceSubstring("abABB"));
-        System.out.println(solution.longestNiceSubstring("dDzeE"));
-        System.out.println(solution.longestNiceSubstring("ijIJwuUnW"));
-        System.out.println(solution.longestNiceSubstring("qlERNCNVvWLOrrkAaDcXnlaDQxNEneRXQMKnrNN"));
-        System.out.println(solution.longestNiceSubstring("YyKyIoyEeUhJnvevOyvBkNjmmyhoBBByUhhumVBnbckyjBBnnBBEHBeBBhbmhvhmyHRUnHmnheBobUnMBYvBtyCnyenmU"));
+        Solution solution = new P1763LongestNiceSubstring().new Solution();
+        System.out.println(solution.longestNiceSubstring2("YazaAay"));
+        System.out.println(solution.longestNiceSubstring2("Bb"));
+        System.out.println(solution.longestNiceSubstring2("c"));
+        System.out.println(solution.longestNiceSubstring2("abABB"));
+        System.out.println(solution.longestNiceSubstring2("dDzeE"));
+        System.out.println(solution.longestNiceSubstring2("ijIJwuUnW"));
+        System.out.println(solution.longestNiceSubstring2("Nnc"));
+        System.out.println(solution.longestNiceSubstring2("dDzeE"));
+        System.out.println(solution.longestNiceSubstring2("qlERNCNVvWLOrrkAaDcXnlaDQxNEneRXQMKnrNN"));
+        System.out.println(solution.longestNiceSubstring2("YyKyIoyEeUhJnvevOyvBkNjmmyhoBBByUhhumVBnbckyjBBnnBBEHBeBBhbmhvhmyHRUnHmnheBobUnMBYvBtyCnyenmU"));
     }
     //leetcode submit region begin(Prohibit modification and deletion)
     /**
      * Brute force
      */
     class Solution {
+        /**
+         * Substring 代表連續
+         * @param s
+         * @return
+         */
+        public String longestNiceSubstring2(String s) {
+            if(s.length() <=1){// at least need two characters
+                return "";
+            }
+            int start = 0;
+            int invalidIndex = isNice2(s, start);
+            if(invalidIndex == -1){
+                return s;
+            }
+            String left = longestNiceSubstring2(s.substring(start, invalidIndex));
+            String right = longestNiceSubstring2(s.substring(invalidIndex+1, s.length()));
+            return left.length() >= right.length()? left: right;
+
+        }
+
+        private int isNice2(String s, int start){
+            Set<Character> list = genList(s);
+            for(int i= start; i < s.length(); i++){
+                Character ch = s.charAt(i);
+                if(Character.isUpperCase(ch) && list.contains(Character.toLowerCase(ch))){
+                    continue;
+                }
+                if(Character.isLowerCase(ch) && list.contains(Character.toUpperCase(ch))){
+                    continue;
+                }
+                return i;
+            }
+            return -1;
+        }
+
+        private Set<Character> genList(String s){
+            Set<Character> list = new HashSet<>();
+           for(int i=0; i < s.length(); i++){
+               list.add(s.charAt(i));
+           }
+           return list;
+        }
         public String longestNiceSubstring(String s) {
             int end = s.length();
             int start = 0;
@@ -113,7 +159,7 @@ public class P1763LongestNiceSubstring{
             // Based on invalid character, divide a string
             // 使用相同邏輯解決各子問題，如果問題夠小，可以直接求解。
             String leftStr = longestNiceSubstring(s.substring(start, invalidChIndex));
-            String rightStr = longestNiceSubstring(s.substring(invalidChIndex+1, end+1));
+            String rightStr = longestNiceSubstring(s.substring(invalidChIndex+1, end));
             // Conquer (find valid one form sub result) 將子問題的結果合併
             return (leftStr.length() > rightStr.length())? leftStr: rightStr;
         }
@@ -127,7 +173,7 @@ public class P1763LongestNiceSubstring{
          */
         private int isNice(String s, int start, int end){
             Set<Character> chs = getCharacterSet(s, start, end);
-            for(int i =start; i <= end; i++){
+            for(int i =start; i < end; i++){
                 Character ch = s.charAt(i);
                 if(Character.isUpperCase(ch) && chs.contains(Character.toLowerCase(ch))){
                     continue;
