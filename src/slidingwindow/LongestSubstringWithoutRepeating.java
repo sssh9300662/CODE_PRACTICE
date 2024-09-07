@@ -40,7 +40,7 @@ public class LongestSubstringWithoutRepeating {
     }
     public int lengthOfLongestSubstring2(String s) {
         Map<Character, Integer> map= new HashMap<>();
-        int max = 0, start = 0;
+        int max = 0, startIndex = 0;
         int length = s.length();
         if(length <= 1){
             return length;
@@ -48,10 +48,11 @@ public class LongestSubstringWithoutRepeating {
        for(int i=0; i<length; i++){
            char c = s.charAt(i);
            if(map.containsKey(c)){
-               start = Math.max(map.get(c)+1, start);
+               startIndex = Math.max(map.get(c)+1, // 往前移一個statIndex, 因為重複代表到end,所以上一個心同字元是開始
+                       startIndex); //不能比目前start小, 因為重複的string可能已經出現在當前startIndex前面
            }
-           map.put(c, i);
-           max = Math.max(max, i-start+1); // 目前位置 - 開始位置 + 1
+           map.put(c, i); // 新增 或 更新 每個字元最後位置
+           max = Math.max(max, i-startIndex+1); // 目前位置 - 開始位置  (+1 是因位stat在前面被更新前移過)
        }
        return max;
     }
