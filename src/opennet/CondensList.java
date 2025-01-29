@@ -1,3 +1,5 @@
+package opennet;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -40,14 +42,13 @@ public class CondensList {
 		Set<Integer> numbers = new HashSet<Integer>();
 		
 		while(current != null) {
-			if(numbers.contains(current.data)) {
-				pre.next = current.next;
-			    current = current.next;
+			if(numbers.contains(current.data)) {// duplicate
+				pre.next = current.next; // skip current
 			}else {
 				numbers.add(current.data);
 				pre = current;
-				current = current.next;
 			}
+			current = current.next;
 		}
 		
 		return head;
