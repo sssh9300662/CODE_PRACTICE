@@ -1,4 +1,4 @@
-//In a town, there are n people labeled from 1 to n. There is a rumor that one of these people
+// In a town, there are n people labeled from 1 to n. There is a rumor that one of these people
 // is secretly the town judge.
 //
 // If the town judge exists, then:
@@ -33,7 +33,7 @@
 // Related Topics Array Hash Table Graph 
 // 👍 4064 👎 299
 
-package leetcode.editor.en;
+package graph;
 
 import java.util.*;
 
@@ -66,8 +66,8 @@ class Solution {
         Map<Integer, Set<Integer>> judgeMap = new HashMap<>();
         Set<Integer> noneJudge = new HashSet<>();
        for(int[] side : trust){
-           int start = side[0];
-           int end = side[1];
+           int start = side[0]; // not a judge
+           int end = side[1]; // be trusted
            noneJudge.add(start);
            judgeMap.remove(start);
            if(noneJudge.contains(end)){
@@ -100,7 +100,7 @@ class Solution {
             in[edge[1]]++;
         }
         for(int i=1; i <= n; i++){
-            if(out[i] == 0 && in[i] == n-1){
+            if(out[i] == 0 && in[i] == n-1){// judge trust nobody && n-1 people trust the judge
                 return i;
             }
         }

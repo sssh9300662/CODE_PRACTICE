@@ -22,7 +22,7 @@ Output: ["()"]
 
 */
 
-package dynamic.medium;
+package backtracking.medium;
 
 import java.util.ArrayList;
 import java.util.List;
